@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jLos - JavaScript Local Storage</title>
+    <link href="css/WriteDirectly.css" rel="stylesheet">
+    <style type="text/css">
+    pre{padding: 5px;background-color: #eee;}
+    .textcenter{text-align: center;}
+    </style>
+  </head>
+  <body>
+    <h1>jLos - 浏览器本地存储</h1>
+    <h4>简单易用的浏览器本地存储，由Catfish(鲶鱼) CMS官方发布</h4>
+    <h3>使用方法：</h3>
+    <h4>1、引入jLos的javaScript文件</h4>
+    <pre>&lt;script src="jLos.js"&gt;&lt;/script&gt;</pre>
+    <h4>2、开启jLos</h4>
+    <pre>var jlos = jLos.open();</pre>
+    <h4>3、存入数据到浏览器本地</h4>
+    <pre>jlos.set('key', '存入的数据');</pre>
+    <p>说明：键名key可以任意取值</p>
+    <h4>4、获取本地数据</h4>
+    <pre>jlos.get('key');</pre>
+    <p>说明：键名需要和set中的相同</p>
+    <h4>5、删除本地数据</h4>
+    <pre>jlos.remove('key');</pre>
+    <p>说明：键名需要和set中的相同</p>
+
+    <br><h3>测试存储：</h3>
+    <h5>请在下面的输入框中输入需要存储的内容，然后按“存储数据”按钮</h5>
+    <input type="text" id="testValue">
+    <button type="button" onclick="storingData()">存储数据</button>
+
+    <h5>请点击“获取数据”按钮，或者关闭浏览器后重新开启本页面后点击“获取数据”按钮</h5>
+    <button type="button" onclick="retrieveData()">获取数据</button>
+
+    <h5>请点击“删除数据”按钮后再点击“获取数据”按钮，将获取不到数据</h5>
+    <button type="button" onclick="removeData()">删除数据</button>
+
+    <br><br>
+    <p>更多高级用法请访问<a href="http://www.catfish-cms.com" target="_blank">Catfish(鲶鱼) CMS官方网站</a>或者<a href="http://jlos.catfish-cms.com" target="_blank">jLos</a>详情页</p>
+    <br><br>
+    <div class="textcenter"><a href="http://www.catfish-cms.com" target="_blank">官方网站</a> | <a href="http://jlos.catfish-cms.com" target="_blank">jLos</a></div><br>
+
+    <script src="jLos.js"></script>
+    <script type="text/javascript">
+      var jlos = jLos.open();
+      function storingData(){
+        jlos.set('key', document.getElementById("testValue").value);
+      }
+      function retrieveData(){
+        alert(jlos.get('key'));
+      }
+      function removeData(){
+        jlos.remove('key');
+      }
+    </script>
+  </body>
+</html>
