@@ -6,7 +6,7 @@
 ## 使用方法: ##
 **1, 引入jLos的javaScript文件**
 
-    <script src="jLos.js"></script>
+    <script src="js/jLos.js"></script>
 
 **2, 开启jLos**
 
