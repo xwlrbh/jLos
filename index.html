@@ -9,6 +9,7 @@
     <style type="text/css">
     pre{padding: 5px;background-color: #eee;}
     .textcenter{text-align: center;}
+    table th,table td{padding: 5px 10px;}
     </style>
   </head>
   <body>
@@ -16,7 +17,7 @@
     <h4>简单易用的浏览器本地存储，由Catfish(鲶鱼) CMS官方发布</h4>
     <h3>使用方法：</h3>
     <h4>1、引入jLos的javaScript文件</h4>
-    <pre>&lt;script src="js/jLos.js"&gt;&lt;/script&gt;</pre>
+    <pre>&lt;script src="jLos.js"&gt;&lt;/script&gt;</pre>
     <h4>2、开启jLos</h4>
     <pre>var jlos = jLos.open();</pre>
     <h4>3、存入数据到浏览器本地</h4>
@@ -29,7 +30,7 @@
     <pre>jlos.remove('key');</pre>
     <p>说明：键名需要和set中的相同</p>
 
-    <br><h3>测试存储：</h3>
+    <br><h3>测试存储 1：</h3>
     <h5>请在下面的输入框中输入需要存储的内容，然后按“存储数据”按钮</h5>
     <input type="text" id="testValue">
     <button type="button" onclick="storingData()">存储数据</button>
@@ -40,12 +41,33 @@
     <h5>请点击“删除数据”按钮后再点击“获取数据”按钮，将获取不到数据</h5>
     <button type="button" onclick="removeData()">删除数据</button>
 
+    <br><br><h3>测试存储 2：</h3>
+    <h5>请在下面的输入框中输入“学号、姓名、成绩”，然后按“添加”按钮</h5>
+    学号：<input type="text" id="xuehao">
+    姓名：<input type="text" id="xingming">
+    成绩：<input type="text" id="chengji">
+    <button type="button" onclick="storingData2()">添加</button>
+    <h5>学生列表</h5>
+    <table border="1">
+      <caption>您添加的学生信息会在这里显示</caption>
+      <thead>
+        <tr>
+          <th>学号</th>
+          <th>姓名</th>
+          <th>成绩</th>
+          <th>删除</th>
+        </tr>
+      </thead>
+      <tbody id="list">
+      </tbody>
+    </table>
+
     <br><br>
     <p>更多高级用法请访问<a href="http://www.catfish-cms.com" target="_blank">Catfish(鲶鱼) CMS官方网站</a>或者<a href="http://jlos.catfish-cms.com" target="_blank">jLos</a>详情页</p>
     <br><br>
     <div class="textcenter"><a href="http://www.catfish-cms.com" target="_blank">官方网站</a> | <a href="http://jlos.catfish-cms.com" target="_blank">jLos</a></div><br>
 
-    <script src="js/jLos.js"></script>
+    <script src="jLos.js"></script>
     <script type="text/javascript">
       var jlos = jLos.open();
       function storingData(){
@@ -56,6 +78,46 @@
       }
       function removeData(){
         jlos.remove('key');
+      }
+      var student = jlos.get('student');
+      if(student == ''){
+        student = 1;
+      }
+      else{
+        for (var i = 1; i <= student; i++) {
+          var stu = jlos.get('student'+i);
+          if(stu != ""){
+            document.getElementById("list").innerHTML = document.getElementById("list").innerHTML+"<tr id='stu"+i+"'><td>"+stu.xuehao+"</td><td>"+stu.xingming+"</td><td>"+stu.chengji+"</td><td><a href='#!' onclick='del("+i+")'>删除</a></td></tr>";
+          }
+        }
+      }
+      function storingData2(){
+        var xuehao = document.getElementById("xuehao").value, xingming = document.getElementById("xingming").value, chengji = document.getElementById("chengji").value;
+        if(xuehao == ""){
+          alert("请输入学号");
+          return false;
+        }
+        if(xingming == ""){
+          alert("请输入姓名");
+          return false;
+        }
+        if(chengji == ""){
+          alert("请输入成绩");
+          return false;
+        }
+        student ++;
+        if(jlos.set('student'+student, {xuehao: xuehao, xingming: xingming, chengji: chengji})){
+          jlos.set('student', student);
+          document.getElementById("list").innerHTML = document.getElementById("list").innerHTML+"<tr id='stu"+student+"'><td>"+xuehao+"</td><td>"+xingming+"</td><td>"+chengji+"</td><td><a href='#!' onclick='del("+student+")'>删除</a></td></tr>";
+          document.getElementById("xuehao").value = "";
+          document.getElementById("xingming").value = "";
+          document.getElementById("chengji").value = "";
+        }
+      }
+      function del(student){
+        if(jlos.remove('student'+student)){
+          document.getElementById("list").removeChild(document.getElementById("stu"+student));
+        }
       }
     </script>
   </body>
